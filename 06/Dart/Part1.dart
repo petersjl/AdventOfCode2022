@@ -15,5 +15,18 @@ Object parseInput([bool test = false]){
 
 // The main method of the puzzle solve
 void solvePuzzle(){
-  print(parseInput());
+  var input = parseInput() as String;
+  String one = input[0];
+  String two = input[1];
+  String three = input[2];
+  int i = 3;
+  while(i < input.length){
+    String four = input[i];
+    if(one != two && one != three && one != four && two != three && two != four && three != four) break;
+    one = two;
+    two = three;
+    three = four;
+    i++;
+  }
+  print('The sequence starts at ${i + 1}');
 }
