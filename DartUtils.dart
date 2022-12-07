@@ -50,8 +50,8 @@ extension GenericListExtras on List {
     return list;
   }
 
-  dynamic whereFirst(bool fun(element)) {
-    for (Object e in this) if (fun(e)) return e;
+  T? whereFirst<T>(bool fun(T element)) {
+    for (T e in this) if (fun(e)) return e;
     return null;
   }
 }

@@ -8,3 +8,4 @@ Calendar:
 - Day 4: Camp Cleanup
 - Day 5: Supply Stacks
 - Day 6: Tuning Trouble
+- Day 7: No Space Left On Device
