@@ -82,9 +82,10 @@ extension GenericMapExtras on Map<dynamic, dynamic> {
 class Point {
   int x, y;
   Point(this.x, this.y);
+  Point.clone(Point other):x = other.x, y = other.y;
 
   @override
-  int get hashCode => '${x}${y}'.hashCode;
+  int get hashCode => '${x},${y}'.hashCode;
 
   @override
   operator ==(Object other) {
