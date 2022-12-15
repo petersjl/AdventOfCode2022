@@ -33,6 +33,8 @@ void solvePuzzle(){
   var maxs = parts[2] as Point;
 
   List<List<int>> map = List.generate(maxs.y + 1, (index) => List.generate(maxs.x - mins.x + 1, (index) => 0));
+  map.add(List.generate(map[0].length, (index) => 0));
+  map.add(List.generate(map[0].length, (index) => -1));
   for(var line in lines){
     drawLine(map, line, mins.x);
   }
@@ -46,23 +48,27 @@ int dropSand(List<List<int>> map, int dropX){
   int count = 0;
   Point sand = Point(dropX, 0);
   while(true){
-    // Did it fall of the bottom of the map
-    if(sand.y >= map.length - 1) break;
     // Can it fall straight down
     if(map[sand.y + 1][sand.x] == 0){
       sand.y++;
       continue;
     }
-    // Will it fall off the left of the map
-    if(sand.x == 0) break;
+    // Are we at the left edge of the map
+    if(sand.x == 0) {
+      padLeft(map);
+      sand.x++;
+      dropX++;
+    }
     // Can it fall to the left
     if(map[sand.y + 1][sand.x - 1] == 0){
       sand.y++;
       sand.x--;
       continue;
     }
-    // Will it fall of the right of the map
-    if(sand.x == map[0].length - 1) break;
+    // Are we at the right edge of the map
+    if(sand.x == map[0].length - 1){
+      padRight(map);
+    }
     // Can it fall to the right
     if(map[sand.y + 1][sand.x + 1] == 0){
       sand.y++;
@@ -72,10 +78,26 @@ int dropSand(List<List<int>> map, int dropX){
     // It can't move so stop and place
     map[sand.y][sand.x] = 1;
     count++;
+    // Did we just block the entry point
+    if(sand == Point(dropX, 0)) break;
     // Reset for the next drop
     sand = Point(dropX, 0);
   }
   return count;
+}
+
+void padLeft(List<List<int>> map){
+  for(var line in map){
+    line.insert(0, 0);
+  }
+  map[map.length - 1][0] = -1;
+}
+
+void padRight(List<List<int>> map){
+  for(var line in map){
+    line.add(0);
+  }
+  map[map.length - 1][map[0].length - 1] = -1;
 }
 
 void drawLine(List<List<int>> map, List<Point> instruction, int left){
